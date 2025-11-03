@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "qwq",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Browser extension: screenshot, IP, image editor (filters, crop), GitHub, cache, passwords, Twitter auto-like.",
   "action": {
     "default_popup": "popup.html",
