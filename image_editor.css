@@ -1,0 +1,120 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* 防止滚动条 */
+}
+
+body {
+  padding: 10px;
+  background-color: #2d333b; /* GitHub Dark Theme background */
+  color: #c9d1d9; /* GitHub Dark Theme text color */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  border-radius: 8px; /* 保持圆角，但可能需要调整 */
+  min-height: 0; /* 允许 body 缩小 */
+}
+
+.editor-container {
+  flex-grow: 1; /* 填充可用空间 */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.canvas-container {
+  flex-grow: 1; /* 填充可用空间 */
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #22272e; /* Slightly darker for canvas background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.controls input[type="range"] {
+  flex-grow: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: #444c56;
+  outline: none;
+  border-radius: 2px;
+}
+
+.controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #586069;
+  cursor: pointer;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+}
+
+.controls input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #586069;
+  cursor: pointer;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+}
+
+button {
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  background-color: #373e47;
+  color: #c9d1d9;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #444c56;
+}
+
+button:active {
+  background-color: #586069;
+}
+
+.canvas-container {
+  flex-grow: 1; /* 填充可用空间 */
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #22272e; /* Slightly darker for canvas background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* 确保 canvas 区域有最小高度 */
+  max-height: calc(100vh - 180px); /* 限制最大高度，为控件和操作按钮留出空间 */
+  position: relative; /* 添加此行 */
+}
+
+canvas {
+  max-width: 100%;
+  max-height: 100%;
+  display: block; /* 移除 canvas 下方的额外空间 */
+  object-fit: contain; /* 确保图像在容器内完全可见并保持宽高比 */
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

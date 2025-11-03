@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>图像编辑</title>
+  <link rel="stylesheet" href="image_editor.css">
+</head>
+<body>
+  <div class="editor-container">
+    <div class="controls">
+      <label for="brightness">亮度:</label>
+      <input type="range" id="brightness" min="0" max="200" value="100">
+      <label for="contrast">对比度:</label>
+      <input type="range" id="contrast" min="0" max="200" value="100">
+      <label for="saturation">饱和度:</label>
+      <input type="range" id="saturation" min="0" max="200" value="100">
+      <label for="sharpen">锐化:</label>
+      <input type="range" id="sharpen" min="0" max="100" value="0">
+      <button id="cropButton">裁剪</button>
+      <button id="resetButton">重置</button>
+    </div>
+    <svg width="0" height="0" style="position: absolute;">
+      <filter id="sharpenFilter">
+        <feConvolveMatrix
+          order="3 3"
+          kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"
+          divisor="1"
+          bias="0"
+        />
+      </filter>
+    </svg>
+    <div class="canvas-container">
+      <canvas id="imageCanvas"></canvas>
+    </div>
+    <div class="actions">
+      <button id="doneButton">完成</button>
+      <button id="cancelButton">取消</button>
+    </div>
+  </div>
+  <script src="image_editor.js"></script>
+</body>
+</html>

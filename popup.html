@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>qwq</title>
+  <style>
+    html, body {
+      border-radius: 8px; /* 增加圆角 */
+      overflow: hidden; /* 确保内容不会超出圆角 */
+    }
+    body {
+      width: 250px; /* 增加宽度以适应两个按钮 */
+      height: auto; /* 高度自适应 */
+      padding: 10px; /* 调整整体内边距，包括顶部和底部 */
+      background-color: #2d333b; /* GitHub Dark Theme background */
+      color: #c9d1d9; /* GitHub Dark Theme text color */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      display: flex;
+      flex-direction: column; /* 垂直布局按钮 */
+      gap: 5px; /* 按钮之间的间距 */
+      align-items: stretch; /* 按钮宽度拉伸 */
+    }
+    button {
+      padding: 8px 12px; /* 调小内边距 */
+      font-size: 13px; /* 调小字体大小 */
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(240, 246, 252, 0.1); /* GitHub Dark Theme border */
+      border-radius: 6px;
+      background-color: #373e47; /* GitHub Dark Theme button background */
+      color: #c9d1d9; /* GitHub Dark Theme button text color */
+      transition: background-color 0.2s ease;
+    }
+    button:hover {
+      background-color: #444c56; /* GitHub Dark Theme button hover background */
+    }
+    button:active {
+      background-color: #586069; /* GitHub Dark Theme button active background */
+    }
+    #currentTime {
+      font-size: 14px; /* 调小字体大小 */
+      text-align: center;
+      margin-bottom: 0; /* 间距由父元素的 gap 控制 */
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+    <div id="browserLanguage" style="font-size: 14px;"></div>
+    <div id="currentTime"></div>
+  </div>
+  <button id="screenshotButton">页面截图到剪贴板</button>
+  <button id="ipButton">查看并复制出网IP</button>
+  <button id="saveImageButton">剪贴板图像另存为</button>
+  <button id="fillGithubButton">填满GitHub贡献格</button>
+  <button id="clearDataButton">抹除当前页面缓存</button>
+  <button id="showPasswordsButton">页面密码明文显示</button>
+  <button id="editImageButton">剪贴板板图像编辑</button>
+  <button id="autoLikeTwitterButton">推特预览自动点赞</button>
+  <button id="testNotificationButton">测试发送系统通知</button>
+  <button id="changeDeepseekBgButton">修改dps对话背景</button>
+
+  <div id="deepseekBgConfig" style="display: none; flex-direction: column; gap: 5px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(240, 246, 252, 0.1);">
+    <label for="bgImageUpload">上传壁纸 (PNG/JPG):</label>
+    <input type="file" id="bgImageUpload" accept="image/png, image/jpeg" style="display: none;">
+    <button id="customBgImageUploadButton" class="custom-file-button">选择文件</button>
+    <img id="bgImagePreview" src="" alt="壁纸预览" style="max-width: 100%; max-height: 100px; object-fit: contain; margin-top: 5px; display: none; border: 1px solid rgba(240, 246, 252, 0.1);">
+
+    <label for="bgOpacity">透明度:</label>
+    <input type="range" id="bgOpacity" min="0" max="1" step="0.01" value="1" style="width: 100%;">
+    <span id="bgOpacityValue" style="font-size: 12px; text-align: right;">100%</span>
+
+    <label for="bgSize">填充方式:</label>
+    <select id="bgSize" style="padding: 5px; border-radius: 4px; border: 1px solid #444c56; background-color: #22272e; color: #c9d1d9;">
+      <option value="cover">覆盖 (cover)</option>
+      <option value="contain">包含 (contain)</option>
+      <option value="auto">自动 (auto)</option>
+      <option value="100% 100%">拉伸 (100% 100%)</option>
+    </select>
+
+    <label for="bgPosition">位置:</label>
+    <select id="bgPosition" style="padding: 5px; border-radius: 4px; border: 1px solid #444c56; background-color: #22272e; color: #c9d1d9;">
+      <option value="center">居中 (center)</option>
+      <option value="top left">左上 (top left)</option>
+      <option value="top center">中上 (top center)</option>
+      <option value="top right">右上 (top right)</option>
+      <option value="center left">左中 (center left)</option>
+      <option value="center right">右中 (center right)</option>
+      <option value="bottom left">左下 (bottom left)</option>
+      <option value="bottom center">中下 (bottom center)</option>
+      <option value="bottom right">右下 (bottom right)</option>
+    </select>
+
+    <label>底色选择:</label>
+    <div style="display: flex; gap: 10px;">
+      <label>
+        <input type="radio" name="baseBgColor" value="black" id="baseBgColorBlack" checked>
+        黑色
+      </label>
+      <label>
+        <input type="radio" name="baseBgColor" value="white" id="baseBgColorWhite">
+        白色
+      </label>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
+      <button id="applyDeepseekBgButton">应用</button>
+      <button id="cancelDeepseekBgButton">取消</button>
+    </div>
+  </div>
+
+  <div id="notificationConfig" style="display: none; flex-direction: column; gap: 5px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(240, 246, 252, 0.1);">
+    <label for="notificationTitle">标题:</label>
+    <input type="text" id="notificationTitle" placeholder="通知标题" style="padding: 5px; border-radius: 4px; border: 1px solid #444c56; background-color: #22272e; color: #c9d1d9;">
+
+    <label for="notificationMessage">消息:</label>
+    <textarea id="notificationMessage" placeholder="通知消息" rows="3" style="padding: 5px; border-radius: 4px; border: 1px solid #444c56; background-color: #22272e; color: #c9d1d9; resize: vertical;"></textarea>
+
+    <label for="notificationIcon">图标 (PNG, 可选):</label>
+    <input type="file" id="notificationIcon" accept="image/png" style="display: none;">
+    <button id="customNotificationIconUploadButton" class="custom-file-button">选择文件</button>
+    <img id="notificationIconPreview" src="" alt="图标预览" style="max-width: 48px; max-height: 48px; margin-top: 5px; display: none;">
+
+    <div style="display: flex; justify-content: flex-end; gap: 5px; margin-top: 10px;">
+      <button id="sendNotificationButton">发送通知</button>
+      <button id="cancelNotificationButton">取消</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

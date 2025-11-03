@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "qwq",
+  "version": "2.0",
+  "description": "Browser extension: screenshot, IP, image editor (filters, crop), GitHub, cache, passwords, Twitter auto-like.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "clipboardWrite",
+    "downloads",
+    "clipboardRead",
+    "browsingData",
+    "storage",
+    "notifications"
+  ],
+  "host_permissions": [
+    "*://ifconfig.me/*",
+    "*://twitter.com/*",
+    "*://x.com/*",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["image_editor.html", "image_editor.js", "image_editor.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
