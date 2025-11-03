@@ -34,6 +34,16 @@ const baseBgColorWhite = document.getElementById('baseBgColorWhite');
 const customBgImageUploadButton = document.getElementById('customBgImageUploadButton');
 const customNotificationIconUploadButton = document.getElementById('customNotificationIconUploadButton');
 
+// 分组相关 DOM 元素
+const clipboardGroupHeader = document.getElementById('clipboardGroupHeader');
+const clipboardGroupContent = document.getElementById('clipboardGroupContent');
+const utilitiesGroupHeader = document.getElementById('utilitiesGroupHeader');
+const utilitiesGroupContent = document.getElementById('utilitiesGroupContent');
+const entertainmentGroupHeader = document.getElementById('entertainmentGroupHeader');
+const entertainmentGroupContent = document.getElementById('entertainmentGroupContent');
+const othersGroupHeader = document.getElementById('othersGroupHeader');
+const othersGroupContent = document.getElementById('othersGroupContent');
+
 // IP 按钮原始文本，用于恢复
 const originalIpButtonText = ipButton.textContent;
 
@@ -125,6 +135,24 @@ updateTime();
 setInterval(updateTime, 1000);
 updateLanguage();
 initializeAutoLikeButton(); // 初始化自动点赞按钮状态
+
+// 分组切换逻辑
+function toggleGroup(header, content) {
+  const arrow = header.querySelector('.arrow');
+  if (content.style.display === 'none' || content.style.display === '') {
+    content.style.display = 'flex';
+    header.classList.add('expanded');
+  } else {
+    content.style.display = 'none';
+    header.classList.remove('expanded');
+  }
+}
+
+// 为每个分组标题添加事件监听器
+clipboardGroupHeader.addEventListener('click', () => toggleGroup(clipboardGroupHeader, clipboardGroupContent));
+utilitiesGroupHeader.addEventListener('click', () => toggleGroup(utilitiesGroupHeader, utilitiesGroupContent));
+entertainmentGroupHeader.addEventListener('click', () => toggleGroup(entertainmentGroupHeader, entertainmentGroupContent));
+othersGroupHeader.addEventListener('click', () => toggleGroup(othersGroupHeader, othersGroupContent));
 
 // 事件监听器 - 页面截图到剪贴板
 screenshotButton.addEventListener('click', async () => {
@@ -455,7 +483,8 @@ clearDataButton.addEventListener('click', async () => {
     console.error('抹除数据和缓存失败:', error);
     await showNotification('抹除数据和缓存失败: ' + error.message);
   }
-});
+}
+);
 
 // 事件监听器 - 页面所有密码明文显示
 showPasswordsButton.addEventListener('click', async () => {
