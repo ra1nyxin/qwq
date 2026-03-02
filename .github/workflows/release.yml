@@ -41,9 +41,7 @@ jobs:
           body: |
             ### [AUTOMATED BUILD]
             - **Build ID**: ${{ github.run_id }}
-            - **Commit SHA**: ${{ github.sha }}
             - **Timestamp**: ${{ steps.vars.outputs.tag_name }}
-            
           files: ${{ steps.vars.outputs.zip_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
