@@ -1,6 +1,6 @@
-# qwq - 浏览器增强工具
-
-![Extension Icon](icon.png)
+<p align="center">
+  <img src="icon.png" alt="Extension Icon">
+</p>
 
 ## 简介 (Introduction)
 
