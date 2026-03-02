@@ -8,36 +8,21 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: [INIT] Checkout Code
-        uses: actions/checkout@v4
-
-      - name: [ENV] Sync Timestamp and Versioning
-        id: meta
+      - uses: actions/checkout@v4
+      - name: Create Package
         run: |
-          RAW_TIME=$(date +'%y.%m%d.%H%M')
-          echo "VERSION=$RAW_TIME" >> $GITHUB_ENV
-          echo "ZIP_NAME=HexGem_v${RAW_TIME}.zip" >> $GITHUB_ENV
+          VERSION="build-${{ github.run_number }}"
+          ZIP_NAME="Extension_${VERSION}.zip"
+          zip -r "$ZIP_NAME" . -x "*.git*" ".github*" "README.md"
+          echo "V_NAME=$VERSION" >> $GITHUB_ENV
+          echo "Z_NAME=$ZIP_NAME" >> $GITHUB_ENV
 
-      - name: [BUILD] Production Archive
-        run: |
-          zip -r ${{ env.ZIP_NAME }} . \
-            -x "*.git*" \
-            -x ".github*"
-
-      - name: [DEPLOY] Secure Release Upload
+      - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
-          name: Release v${{ env.VERSION }}
-          body: |
-            ## [BUILD REPORT]
-            - **Build Version**: `${{ env.VERSION }}`
-            - **Commit Hash**: `${{ github.sha }}`
-            - **Environment**: Production GHA Node
-          files: ${{ env.ZIP_NAME }}
+          tag_name: ${{ env.V_NAME }}
+          name: Release ${{ env.V_NAME }}
+          files: ${{ env.Z_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
