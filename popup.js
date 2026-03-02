@@ -34,6 +34,13 @@ const baseBgColorWhite = document.getElementById('baseBgColorWhite');
 const customBgImageUploadButton = document.getElementById('customBgImageUploadButton');
 const customNotificationIconUploadButton = document.getElementById('customNotificationIconUploadButton');
 
+// 新增图像缩小按钮的 DOM 元素
+const scaleImage1_24Button = document.getElementById('scaleImage1_24Button');
+const scaleImage1_12Button = document.getElementById('scaleImage1_12Button');
+const scaleImage1_8Button = document.getElementById('scaleImage1_8Button');
+const scaleImage1_4Button = document.getElementById('scaleImage1_4Button');
+const scaleImage1_2Button = document.getElementById('scaleImage1_2Button');
+
 // 分组相关 DOM 元素
 const clipboardGroupHeader = document.getElementById('clipboardGroupHeader');
 const clipboardGroupContent = document.getElementById('clipboardGroupContent');
@@ -153,6 +160,82 @@ clipboardGroupHeader.addEventListener('click', () => toggleGroup(clipboardGroupH
 utilitiesGroupHeader.addEventListener('click', () => toggleGroup(utilitiesGroupHeader, utilitiesGroupContent));
 entertainmentGroupHeader.addEventListener('click', () => toggleGroup(entertainmentGroupHeader, entertainmentGroupContent));
 othersGroupHeader.addEventListener('click', () => toggleGroup(othersGroupHeader, othersGroupContent));
+
+// 辅助函数：缩放剪贴板图像
+async function scaleClipboardImage(scaleFactor) {
+  try {
+    const clipboardItems = await navigator.clipboard.read();
+    let imageFound = false;
+    let originalBlob = null;
+
+    for (const clipboardItem of clipboardItems) {
+      for (const type of clipboardItem.types) {
+        if (type.startsWith('image/')) {
+          imageFound = true;
+          originalBlob = await clipboardItem.getType(type);
+          break;
+        }
+      }
+      if (imageFound) break;
+    }
+
+    if (!imageFound || !originalBlob) {
+      await showNotification('剪贴板中没有找到图像。请确保您已复制图像。');
+      return;
+    }
+
+    const originalSizeMB = (originalBlob.size / (1024 * 1024)).toFixed(2);
+
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      img.onload = async () => {
+        const originalWidth = img.width;
+        const originalHeight = img.height;
+
+        const newWidth = Math.round(originalWidth / scaleFactor);
+        const newHeight = Math.round(originalHeight / scaleFactor);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+        canvas.toBlob(async (scaledBlob) => {
+          if (scaledBlob) {
+            const newSizeMB = (scaledBlob.size / (1024 * 1024)).toFixed(2);
+            await navigator.clipboard.write([
+              new ClipboardItem({ [scaledBlob.type]: scaledBlob })
+            ]);
+            await showNotification(
+              `图像已缩小 ${scaleFactor} 倍！\n` +
+              `原尺寸: ${originalWidth}x${originalHeight}, ${originalSizeMB}MB\n` +
+              `新尺寸: ${newWidth}x${newHeight}, ${newSizeMB}MB`
+            );
+          } else {
+            await showNotification('图像缩小失败：无法创建 Blob。');
+          }
+        }, originalBlob.type);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(originalBlob);
+
+  } catch (error) {
+    console.error('缩放剪贴板图像失败:', error);
+    await showNotification('缩放剪贴板图像失败: ' + error.message);
+  }
+}
+
+// 为新的图像缩小按钮添加事件监听器
+scaleImage1_24Button.addEventListener('click', () => scaleClipboardImage(24));
+scaleImage1_12Button.addEventListener('click', () => scaleClipboardImage(12));
+scaleImage1_8Button.addEventListener('click', () => scaleClipboardImage(8));
+scaleImage1_4Button.addEventListener('click', () => scaleClipboardImage(4));
+scaleImage1_2Button.addEventListener('click', () => scaleClipboardImage(2));
 
 // 事件监听器 - 页面截图到剪贴板
 screenshotButton.addEventListener('click', async () => {
