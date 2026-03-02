@@ -269,14 +269,38 @@ function stopAutoLike() {
   }
 }
 
-// GitHub 贡献表填满功能
 function fillGithubContributions() {
-  const cells = document.querySelectorAll('.ContributionCalendar-day[data-level="0"]');
-  cells.forEach(cell => {
-    cell.setAttribute('data-level', '4');
-    cell.style.backgroundColor = '#216e39'; // 最深绿色
-  });
-  console.log(`已将 ${cells.length} 个 GitHub 贡献格子填满。`);
+    const MAX_LEVEL_COLOR = '#56d364';
+    const MAX_LEVEL_VAL = "4";
+    const styleId = 'github-fill-override';
+    if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            .ContributionCalendar-day, 
+            rect.ContributionCalendar-day[data-level] {
+                fill: ${MAX_LEVEL_COLOR} !important;
+                background-color: ${MAX_LEVEL_COLOR} !important;
+            }
+            :root {
+                --color-calendar-graph-day-bg: ${MAX_LEVEL_COLOR} !important;
+                --color-calendar-graph-day-L1-bg: ${MAX_LEVEL_COLOR} !important;
+                --color-calendar-graph-day-L2-bg: ${MAX_LEVEL_COLOR} !important;
+                --color-calendar-graph-day-L3-bg: ${MAX_LEVEL_COLOR} !important;
+                --color-calendar-graph-day-L4-bg: ${MAX_LEVEL_COLOR} !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    const cells = document.querySelectorAll('td.ContributionCalendar-day, rect.ContributionCalendar-day');
+    cells.forEach(cell => {
+        cell.setAttribute('data-level', MAX_LEVEL_VAL);
+        if (cell.tagName.toLowerCase() === 'rect') {
+            cell.style.fill = MAX_LEVEL_COLOR;
+        } else {
+            cell.style.backgroundColor = MAX_LEVEL_COLOR;
+        }
+    });
 }
 
 // 密码明文显示功能
