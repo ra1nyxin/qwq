@@ -109,8 +109,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     initialImage.src = imageDataUrl;
   } else {
-    console.error('未找到剪贴板图像数据。');
-    alert('未找到剪贴板图像数据。请从插件菜单重新打开图像编辑。');
     window.close();
     return;
   }
@@ -486,18 +484,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       await navigator.clipboard.write([
         new ClipboardItem({ [blob.type]: blob })
       ]);
-      console.log('编辑后的图像已写入剪贴板。');
-      alert('编辑后的图像已写入剪贴板！'); // 使用 alert 临时通知用户
+      alert('编辑后的图像已写入剪贴板！');
       window.close();
     } catch (error) {
-      console.error('写入剪贴板失败:', error);
-      alert('写入剪贴板失败: ' + error.message); // 使用 alert 临时通知用户
     }
   });
 
-  // 取消按钮
   cancelButton.addEventListener('click', () => {
-    console.log('取消按钮被点击。');
     window.close();
   });
 });
