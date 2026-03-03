@@ -32,6 +32,7 @@ const cancelDeepseekBgButton = document.getElementById('cancelDeepseekBgButton')
 const baseBgColorBlack = document.getElementById('baseBgColorBlack');
 const baseBgColorWhite = document.getElementById('baseBgColorWhite');
 const customBgImageUploadButton = document.getElementById('customBgImageUploadButton');
+const resetDeepseekBgButton = document.getElementById('resetDeepseekBgButton');
 const customNotificationIconUploadButton = document.getElementById('customNotificationIconUploadButton');
 
 // 新增图像缩小按钮的 DOM 元素
@@ -674,6 +675,21 @@ applyDeepseekBgButton.addEventListener('click', async () => {
 cancelDeepseekBgButton.addEventListener('click', () => {
   deepseekBgConfig.style.display = 'none';
   resetDeepseekBgConfig();
+});
+
+resetDeepseekBgButton.addEventListener('click', async () => {
+  const defaultSettings = {
+    imageUrl: null,
+    opacity: 1,
+    size: 'cover',
+    position: 'center',
+    baseBackgroundColor: 'black'
+  };
+
+  await chrome.storage.local.set({ deepseekBgSettings: defaultSettings });
+  resetDeepseekBgConfig();
+  await applyDeepseekBg(defaultSettings);
+  showNotification('DeepSeek 背景已恢复默认设置');
 });
 
 // 辅助函数：重置 DeepSeek 背景配置界面

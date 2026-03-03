@@ -37,13 +37,61 @@ body {
   align-items: center;
 }
 
-.controls label {
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.control-group {
+  background-color: #22272e;
+  border: 1px solid rgba(240, 246, 252, 0.08);
+  border-radius: 6px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@media (max-width: 1400px) {
+  .controls {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.control-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 13px;
   font-weight: 600;
 }
 
+.control-value {
+  font-size: 12px;
+  color: #8b949e;
+}
+
 .controls input[type="range"] {
-  flex-grow: 1;
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
@@ -70,6 +118,13 @@ body {
   background: #586069;
   cursor: pointer;
   border: 1px solid rgba(240, 246, 252, 0.1);
+}
+
+.control-buttons {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 button {

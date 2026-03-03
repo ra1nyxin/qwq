@@ -8,16 +8,87 @@
 <body>
   <div class="editor-container">
     <div class="controls">
-      <label for="brightness">亮度:</label>
-      <input type="range" id="brightness" min="0" max="200" value="100">
-      <label for="contrast">对比度:</label>
-      <input type="range" id="contrast" min="0" max="200" value="100">
-      <label for="saturation">饱和度:</label>
-      <input type="range" id="saturation" min="0" max="200" value="100">
-      <label for="sharpen">锐化:</label>
-      <input type="range" id="sharpen" min="0" max="100" value="0">
-      <button id="cropButton">裁剪</button>
-      <button id="resetButton">重置</button>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="brightness">亮度</label>
+          <span id="brightnessValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="brightness" min="0" max="200" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="contrast">对比度</label>
+          <span id="contrastValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="contrast" min="0" max="200" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="exposure">曝光</label>
+          <span id="exposureValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="exposure" min="50" max="150" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="saturation">饱和度</label>
+          <span id="saturationValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="saturation" min="0" max="200" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="hue">色相</label>
+          <span id="hueValue" class="control-value">0°</span>
+        </div>
+        <input type="range" id="hue" min="-180" max="180" value="0">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="blur">模糊</label>
+          <span id="blurValue" class="control-value">0px</span>
+        </div>
+        <input type="range" id="blur" min="0" max="10" value="0">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="highlights">高光</label>
+          <span id="highlightsValue" class="control-value">0</span>
+        </div>
+        <input type="range" id="highlights" min="-100" max="100" value="0">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="shadows">阴影</label>
+          <span id="shadowsValue" class="control-value">0</span>
+        </div>
+        <input type="range" id="shadows" min="-100" max="100" value="0">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="temperature">色温</label>
+          <span id="temperatureValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="temperature" min="0" max="200" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="tint">色调</label>
+          <span id="tintValue" class="control-value">100%</span>
+        </div>
+        <input type="range" id="tint" min="0" max="200" value="100">
+      </div>
+      <div class="control-group">
+        <div class="control-label">
+          <label for="sharpen">锐化</label>
+          <span id="sharpenValue" class="control-value">0%</span>
+        </div>
+        <input type="range" id="sharpen" min="0" max="100" value="0">
+      </div>
+      <div class="control-buttons">
+        <button id="cropButton">裁剪</button>
+        <button id="resetButton">重置</button>
+      </div>
     </div>
     <svg width="0" height="0" style="position: absolute;">
       <filter id="sharpenFilter">
